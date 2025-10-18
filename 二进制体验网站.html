@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二进制编码体验工坊</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.3);
+        }
+        
+        button {
+            background: #4dabf7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #339af0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result-section {
+            margin-top: 30px;
+        }
+        
+        .binary-display {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            word-break: break-all;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .binary-digit {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+            margin: 0 2px;
+            transition: all 0.3s;
+        }
+        
+        .binary-digit.one {
+            color: #4dabf7;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(77, 171, 247, 0.7);
+        }
+        
+        .binary-digit.zero {
+            color: #adb5bd;
+        }
+        
+        .explanation {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .explanation h3 {
+            margin-bottom: 10px;
+            color: #4dabf7;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .binary-digit {
+                width: 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>二进制编码体验工坊</h1>
+            <p class="subtitle">探索文字如何转换为计算机理解的0和1</p>
+        </header>
+        
+        <section class="input-section">
+            <div class="input-group">
+                <label for="nameInput">输入你的名字：</label>
+                <input type="text" id="nameInput" placeholder="例如：张三" value="张三">
+            </div>
+            
+            <div class="input-group">
+                <label for="textInput">或输入任意文本：</label>
+                <textarea id="textInput" rows="3" placeholder="输入任何你想转换为二进制的文本...">二进制很有趣！</textarea>
+            </div>
+            
+            <button id="convertBtn">转换为二进制</button>
+        </section>
+        
+        <section class="result-section">
+            <h2>二进制结果：</h2>
+            <div id="binaryResult" class="binary-display">
+                二进制编码将显示在这里...
+            </div>
+        </section>
+        
+        <section class="explanation">
+            <h3>二进制是如何工作的？</h3>
+            <p>计算机使用二进制系统（0和1）来表示所有信息。每个字符（字母、数字、符号）都有一个对应的数字编码（如ASCII或Unicode），这个数字编码再被转换为二进制形式。</p>
+            <p>例如，字母"A"的ASCII码是65，转换为二进制就是01000001。</p>
+            <p>尝试输入不同的文本，观察它们如何被转换为0和1的序列！</p>
+        </section>
+        
+        <footer>
+            <p>高中信息技术课程 - 数据及其特征</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('nameInput');
+            const textInput = document.getElementById('textInput');
+            const convertBtn = document.getElementById('convertBtn');
+            const binaryResult = document.getElementById('binaryResult');
+            
+            // 转换按钮点击事件
+            convertBtn.addEventListener('click', function() {
+                // 优先使用文本输入框的内容，如果为空则使用名字输入框
+                const inputText = textInput.value.trim() || nameInput.value.trim();
+                
+                if (!inputText) {
+                    binaryResult.innerHTML = '请输入一些文本进行转换！';
+                    return;
+                }
+                
+                // 转换为二进制
+                const binaryString = textToBinary(inputText);
+                displayBinary(binaryString);
+            });
+            
+            // 将文本转换为二进制表示
+            function textToBinary(text) {
+                let binaryResult = '';
+                
+                for (let i = 0; i < text.length; i++) {
+                    // 获取字符的Unicode编码
+                    const charCode = text.charCodeAt(i);
+                    // 将Unicode编码转换为二进制字符串（8位）
+                    const binaryChar = charCode.toString(2).padStart(8, '0');
+                    binaryResult += binaryChar + ' ';
+                }
+                
+                return binaryResult.trim();
+            }
+            
+            // 显示二进制结果，并高亮1
+            function displayBinary(binaryString) {
+                let html = '';
+                
+                for (let i = 0; i < binaryString.length; i++) {
+                    const char = binaryString[i];
+                    
+                    if (char === '0' || char === '1') {
+                        const className = char === '1' ? 'one' : 'zero';
+                        html += `<span class="binary-digit ${className}">${char}</span>`;
+                    } else {
+                        // 对于空格，添加一个更大的间隔
+                        html += '<span style="margin: 0 10px;"> </span>';
+                    }
+                }
+                
+                binaryResult.innerHTML = html;
+            }
+            
+            // 页面加载时自动转换示例文本
+            convertBtn.click();
+        });
+    </script>
+</body>
+</html>
